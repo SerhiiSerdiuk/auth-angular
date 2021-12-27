@@ -15,10 +15,7 @@ export class LoginComponent implements OnInit {
   public usernameError$: Observable<string> | undefined;
   public passwordError$: Observable<string> | undefined;
 
-  constructor(
-    private readonly http: HttpClient,
-    private readonly fb: FormBuilder
-  ) {
+  constructor(private readonly http: HttpClient, private readonly fb: FormBuilder) {
     this.loginForm = this.fb.group({
       username: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -67,8 +64,7 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    const username = this.loginForm.get('username')?.value;
-    const password = this.loginForm.get('password')?.value;
+    const { username, password } = this.loginForm.getRawValue();
 
     this.http
       .post(`${AUTH_API_URL}/login`, {
